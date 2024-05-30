@@ -168,9 +168,7 @@ public class MainPage {
                     Assert.assertTrue(false, "Waiting for Element but not exist");
                 }
 
-                if (displayed(quickPayCancelBtn, 0)) {
-                    quickPayCancelBtn.click();
-                }
+
             }
 
         }
@@ -236,16 +234,15 @@ public class MainPage {
                 if (count == 2) {
                     Assert.fail("Waiting for Element but not exist");
                 }
-                if (displayed(quickPayCancelBtn, 0)) {
-                    quickPayCancelBtn.click();
-                }
+
             }
         }
 
     }
 
-    public void setText(WebElement element, String data) {
+    public MainPage setText(WebElement element, String data) {
             setText(element, data, null);
+            return  this;
     }
 
 

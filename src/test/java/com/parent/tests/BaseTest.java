@@ -13,7 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 import org.parent.constants.GeneralConstants;
-import org.parent.pages.LoginPage;
+import org.parent.pages.Web.LoginPage;
 import org.parent.utils.Log;
 import org.parent.utils.PropertiesFilesHandler;
 import org.testng.annotations.*;
@@ -42,13 +42,7 @@ public class BaseTest {
         setUp(platformName, email, password);
 
     }
-    @Parameters({"platformName", "email", "password"})
-    @BeforeTest
-    public void BeforeTest2(@Optional(value = "Android") String platformName, @Optional(value = "01020204040") String email, @Optional(value = "Aa@421998") String password) throws IOException, org.json.simple.parser.ParseException, SQLException, ClassNotFoundException {
-        driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
-        new LoginPage(driver).appLogin(email,password);
 
-    }
 
     public void setUp(String platform, String email, String password) throws IOException, org.json.simple.parser.ParseException {
 
@@ -67,20 +61,25 @@ public class BaseTest {
         } else if (platform.equalsIgnoreCase("Chrome")) {
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
+            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
         } else if (platform.equalsIgnoreCase("Edge")) {
             WebDriverManager.edgedriver().setup();
             driver = new EdgeDriver();
+            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
         } else if (platform.equalsIgnoreCase("Firefox")) {
             WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
+            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
         }
         else if (platform.equalsIgnoreCase("Safari")) {
             WebDriverManager.safaridriver().setup();
             driver = new SafariDriver();
+            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
         }
         else {
             WebDriverManager.chromedriver().setup();
             driver = new FirefoxDriver();
+            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
         }
 
     }
@@ -89,7 +88,7 @@ public class BaseTest {
     @AfterSuite
     public void tearDown() {
         if (driver != null) {
-            driver.quit();
+         //   driver.quit();
 
             System.out.println("After Test Thread ID: " + Thread.currentThread().getId());
 

@@ -2,29 +2,26 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="WebSuit">
-<!--
-    <parameter name="platformName" value="edge"/>
-    <parameter name="email" value="01245457575"/>
-    <parameter name="password" value="P@ssw0rd"/>-->
+
     <listeners>
         <listener class-name="org.parent.utils.ExtentReporterNG"/>
     </listeners>
-    
+<!--
     <test name="WebTestCases">
         <parameter name="platformName" value="Firefox"/>
         <parameter name="email" value="demo@parent.cloud"/>
         <parameter name="password" value="12345678"/>
     <classes>
-        <class name="com.parent.tests.TaskTestCases"/>
+        <class name="com.parent.tests.Web.TaskTestCases"/>
     </classes>
-    </test>
+    </test>-->
 
     <test name="WebTestCases2">
-        <parameter name="platformName" value="Firefox"/>
-        <parameter name="email" value="01245457575"/>
-        <parameter name="password" value="P@ssw0rd"/>
+        <parameter name="platformName" value="Android"/>
+        <parameter name="email" value="democompany@parent.eu"/>
+        <parameter name="password" value="P@rent12345678"/>
         <classes>
-            <class name="com.parent.tests.TaskTestCases"/>
+            <class name="com.parent.tests.Mobile.TaskTestCases"/>
         </classes>
     </test>
 </suite>
