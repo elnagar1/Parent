@@ -15,7 +15,7 @@
     </classes>
     </test>
 
-<!--    <test name="WebTestCases2">
+<!--    <test name="MobileTestCases">
         <parameter name="platformName" value="Android"/>
         <parameter name="email" value="democompany@parent.eu"/>
         <parameter name="password" value="P@rent12345678"/>
