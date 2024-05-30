@@ -1,0 +1,6 @@
+{
+  "platformName": "Android",
+  "appium:appPackage": "com.fawry.myfawry.dev",
+  "appium:appActivity": "com.emeint.android.mwallet2.view.StartupActivity",
+  "appium:udid": "R58T60CVN6J"
+}

@@ -1,0 +1,8 @@
+{
+  "platformName": "IOS",
+  "udid": "2d5f16341f8843ee63086ef6156625ed88063933",
+  "automationName": "XCUITest",
+  "deviceName": "iPhone",
+  "bundleId": "com.fawry.myFawryTesting",
+  "noReset": true
+}

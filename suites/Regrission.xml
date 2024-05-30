@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="US30363_US32710">
+
+    <listeners>
+        <listener class-name="org.parent.utils.ExtentReporterNG" />
+    </listeners>
+<!--
+    <suite-files>
+        <suite-file path="MMF/US57098_US57115_US28329_US28344_US28495.xml"></suite-file>
+        <suite-file path="MMF/US30363_US32710.xml"></suite-file>
+        <suite-file path="MMF/US40307_US55069_US51531_US28398_US55048_US55060_US55061.xml"></suite-file>
+        <suite-file path="MMF/US55093.xml"></suite-file>
+    </suite-files>-->
+
+</suite>
