@@ -19,7 +19,7 @@ public class TaskTestCases extends BaseTest {
 
     }
     @Test(priority = 1)
-    public void VerifyMMFTrueAfterUserRequestedFPCard()  {
+    public void testCase1()  {
 
 
         new HomePage(driver).createEvent();

@@ -18,10 +18,8 @@ public class HomePage extends MainPage {
     public WebElement instituteCard;
     @FindBy(xpath = "//*[contains(@resource-id,'calendar')]")
     public WebElement calendarTab;
-
     @FindBy(xpath = "//*[contains(@resource-id,'add_button')]/android.widget.ImageButton")
     public WebElement addBtn;
-
     @FindBy(xpath = "//*[contains(@text,'Create event')]")
     public WebElement createEventBtn;
 
