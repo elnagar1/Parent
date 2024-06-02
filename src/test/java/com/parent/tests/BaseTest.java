@@ -10,10 +10,10 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 import org.parent.constants.GeneralConstants;
-import org.parent.pages.Web.LoginPage;
 import org.parent.utils.Log;
 import org.parent.utils.PropertiesFilesHandler;
 import org.testng.annotations.*;
@@ -74,6 +74,14 @@ public class BaseTest {
         else if (platform.equalsIgnoreCase("Safari")) {
             WebDriverManager.safaridriver().setup();
             driver = new SafariDriver();
+            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
+        }
+        else if (platform.equalsIgnoreCase("headless")) {
+            WebDriverManager.firefoxdriver().setup();
+
+            FirefoxOptions options = new FirefoxOptions();
+            options.addArguments("--headless"); // Enable headless mode for Firefox
+            driver = new FirefoxDriver(options);
             driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
         }
         else {
