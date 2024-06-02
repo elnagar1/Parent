@@ -2,8 +2,6 @@ package org.parent.pages;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.google.common.collect.ImmutableList;
-import com.shaft.gui.element.AlertActions;
-import com.shaft.gui.element.TouchActions;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;

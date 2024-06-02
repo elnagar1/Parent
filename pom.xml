@@ -19,13 +19,8 @@
         <surefire-testng.version>3.1.2</surefire-testng.version>
         <junit-jupiter-engine.version>5.9.3</junit-jupiter-engine.version>
     </properties>
+
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
-        <dependency>
-            <groupId>com.aventstack</groupId>
-            <artifactId>extentreports</artifactId>
-            <version>4.0.9</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc10 -->
         <dependency>
@@ -53,18 +48,10 @@
 
 
     </dependencies>
+
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>suites/TaskSuite.xml</suiteXmlFile>
-                    </suiteXmlFiles>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -77,6 +64,7 @@
                     <meminitial>1024m</meminitial>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -86,8 +74,20 @@
                     <outputDirectory>target/classes</outputDirectory>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>TaskSuite.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
     <profiles>
         <profile>
             <id>testng</id>
@@ -96,6 +96,7 @@
             </activation>
             <build>
                 <plugins>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
@@ -140,58 +141,6 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>junit</id>
-            <activation>
-                <file>
-                    <missing>src/test/resources/META-INF/services/org.testng.ITestNGListener</missing>
-                    <exists>src/test/resources/META-INF/services/org.junit.platform.launcher.LauncherSessionListener</exists>
-                </file>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${maven-surefire-plugin.version}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.aspectj</groupId>
-                                <artifactId>aspectjweaver</artifactId>
-                                <version>${aspectjweaver.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.junit.jupiter</groupId>
-                                <artifactId>junit-jupiter-engine</artifactId>
-                                <version>${junit-jupiter-engine.version}</version>
-                            </dependency>
-                        </dependencies>
-                        <configuration>
-                            <systemPropertyVariables>
-                                <testng.dtd.http>true</testng.dtd.http>
-                            </systemPropertyVariables>
-                            <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
-                            <failIfNoTests>false</failIfNoTests>
-                            <trimStackTrace>false</trimStackTrace>
-                            <useFile>false</useFile>
-                            <encoding>UTF-8</encoding>
-                            <argLine>
-                                -javaagent:${user.home}/.m2/repository/org/aspectj/aspectjweaver/${aspectjweaver.version}/aspectjweaver-${aspectjweaver.version}.jar
-                            </argLine>
-                            <properties>
-                                <property>
-                                    <name>usedefaultlisteners</name>
-                                    <value>false</value>
-                                </property>
-                                <property>
-                                    <name>listener</name>
-                                    <value>com.shaft.listeners.JunitListener</value>
-                                </property>
-                            </properties>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+
     </profiles>
 </project>

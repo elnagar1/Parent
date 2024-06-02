@@ -3,9 +3,6 @@
 
 <suite name="WebSuit">
 
-    <listeners>
-        <listener class-name="org.parent.utils.ExtentReporterNG"/>
-    </listeners>
     <test name="WebTestCases">
         <parameter name="platformName" value="headless"/>
         <parameter name="email" value="demo@parent.cloud"/>
