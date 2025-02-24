@@ -3,7 +3,6 @@ package com.parent.tests;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.ios.IOSDriver;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.*;
@@ -59,35 +58,29 @@ public class BaseTest {
         } else if (platform.equalsIgnoreCase("BrowserStack")) {
             MutableCapabilities capabilities = new UiAutomator2Options();
         } else if (platform.equalsIgnoreCase("Chrome")) {
-            WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
-            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
+            driver.get("https://www.vfsglobal.com/en/individuals/index.html"); // Website URL
         } else if (platform.equalsIgnoreCase("Edge")) {
-            WebDriverManager.edgedriver().setup();
             driver = new EdgeDriver();
-            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
+            driver.get("https://www.vfsglobal.com/en/individuals/index.html"); // Website URL
         } else if (platform.equalsIgnoreCase("Firefox")) {
-            WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
-            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
+            driver.get("https://www.vfsglobal.com/en/individuals/index.html"); // Website URL
         }
         else if (platform.equalsIgnoreCase("Safari")) {
-            WebDriverManager.safaridriver().setup();
             driver = new SafariDriver();
-            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
+            driver.get("https://www.vfsglobal.com/en/individuals/index.html"); // Website URL
         }
         else if (platform.equalsIgnoreCase("headless")) {
-            WebDriverManager.firefoxdriver().setup();
-
             FirefoxOptions options = new FirefoxOptions();
             options.addArguments("--headless"); // Enable headless mode for Firefox
             driver = new FirefoxDriver(options);
-            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
+            driver.get("https://www.vfsglobal.com/en/individuals/index.html"); // Website URL
         }
         else {
-            WebDriverManager.chromedriver().setup();
+
             driver = new FirefoxDriver();
-            driver.get("https://portal-staging.parent.cloud/institute"); // Website URL
+            driver.get("https://www.vfsglobal.com/en/individuals/index.html"); // Website URL
         }
 
     }
