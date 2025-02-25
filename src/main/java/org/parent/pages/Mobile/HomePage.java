@@ -25,10 +25,10 @@ public class HomePage extends MainPage {
 
 
     public void createEvent() {
-        click(instituteCard);
+       /* click(instituteCard);
         click(calendarTab);
         click(addBtn);
-        click(createEventBtn);
+        click(createEventBtn);*/
 
     }
 }

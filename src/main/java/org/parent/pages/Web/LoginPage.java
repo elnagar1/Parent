@@ -24,8 +24,8 @@ public class LoginPage extends MainPage {
 
 
     public void appLogin(String email, String password) {
-        setText(emailTxb, email);
+   /*     setText(emailTxb, email);
         setText(passwordTxt, password);
-        click(signIn);
+        click(signIn);*/
     }
 }

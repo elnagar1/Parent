@@ -21,20 +21,30 @@ public class HomePage extends MainPage {
 
     private By fromCountryInput = By.cssSelector("input.search-input[placeholder='Select Country / Region']");
     private By toCountryInput = By.cssSelector("input.search-input[placeholder='Select Country']");
-    private By countryList = By.cssSelector("ul.section-list");
-    private By removeSelectionButton = By.cssSelector("div.remove-selection-button");
     private By submitBtn = By.xpath("//*[text()='Take Me To The Website']");
 
-    public By egypt = By.xpath("//*[@class='text' and text()='Egypt']");
+    private By acceptCookiesButton = By.id("onetrust-accept-btn-handler");
+
+
+    public AppointmentPage clickAcceptCookiesButton() {
+
+        click(acceptCookiesButton);
+        driver.findElement(acceptCookiesButton).click();
+       return new AppointmentPage(driver);
+    }
+
+    public boolean isAcceptCookiesButtonDisplayed() {
+        return driver.findElement(acceptCookiesButton).isDisplayed();
+    }
 
     public void selectFromCountry(String country) {
         WebElement element = driver.findElement(fromCountryInput);
-        waitForElementPresent(element);
+        waitForElementPresent(fromCountryInput);
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].click();", element);
-        WebElement element2 = driver.findElement(fromCountryInput);
-        waitForElementPresent(element2);
-        element2.sendKeys(country);
+
+        waitForElementPresent(fromCountryInput);
+        setText(fromCountryInput,country);
 
         driver.findElement(By.xpath("//*[@class='text' and text()='"+country+"']")).click();
     }
@@ -45,21 +55,13 @@ public class HomePage extends MainPage {
 
     public void selectToCountry(String country) {
         WebElement element = driver.findElement(toCountryInput);
-        waitForElementPresent(element);
+        waitForElementPresent(toCountryInput);
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].click();", element);
 
-        driver.findElement(toCountryInput).sendKeys(country);
-
-        driver.findElement(By.xpath("//*[@class='text' and text()='"+country+"']")).click();
+        setText(toCountryInput,country);
+      click(By.xpath("//*[@class='text' and text()='"+country+"']"));
     }
 
-    public boolean isCountryInList(String country) {
-        return driver.findElement(countryList).getText().contains(country);
-    }
-
-    public void clearSelectedCountry() {
-        driver.findElement(removeSelectionButton).click();
-    }
 
 }

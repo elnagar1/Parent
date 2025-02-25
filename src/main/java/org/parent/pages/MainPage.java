@@ -41,11 +41,10 @@ public class MainPage {
     protected int globalTimeOut = GeneralConstants.GLOBAL_TIME_OUT;
 
     By backBtnXpath = By.xpath("//XCUIElementTypeButton[@name=\"headerLeftButton\"]");
-    @FindBy(xpath = "//XCUIElementTypeButton[@name='ic']")
-    public WebElement backIcon;
 
-    @FindBy(xpath = "//XCUIElementTypeButton[@name='Cancel'] | //*[contains(@resource-id,'tv_cancel')]")
-    public WebElement quickPayCancelBtn;
+    By backIcon = By.xpath("//XCUIElementTypeButton[@name='ic']");
+
+    By quickPayCancelBtn = By.xpath("//XCUIElementTypeButton[@name='Cancel'] | //*[contains(@resource-id,'tv_cancel')]");
 
     public WebElement getBackBtn() {
         return driver.findElement(backBtnXpath);
@@ -58,6 +57,19 @@ public class MainPage {
 
     }
 
+
+
+    public void switchToNewTab() {
+        String originalWindow = driver.getWindowHandle();
+        Set<String> handles = driver.getWindowHandles();
+    for (String handle : handles) {
+        if (!handle.equals(originalWindow)) {
+            driver.switchTo().window(handle);
+            break; // Switch to the new tab/window
+        }
+    }
+}
+    // Now the driver is on the new tab/window
     public boolean isAndroid() {
         return platform.equalsIgnoreCase("android");
     }
@@ -71,7 +83,7 @@ public class MainPage {
         new SoftAssert().assertTrue(actualResult.contains(expectedResult1) || actualResult.contains(expectedResult2));
     }
 
-    public boolean verifyElementClickable(WebElement element) {
+    public boolean verifyElementClickable(By element) {
 
         by(element, "Verify Element Present");
         try {
@@ -81,7 +93,7 @@ public class MainPage {
         }
 
         try {
-            return element.isEnabled();
+            return driver.findElement(element).isEnabled();
         } catch (Exception e) {
             return false;
         }
@@ -90,7 +102,7 @@ public class MainPage {
     }
 
 
-    public String getText(WebElement element, Long second) {
+    public String getText(By element, Long second) {
 
         by(element, "Get Text");
         int count = 0;
@@ -103,7 +115,7 @@ public class MainPage {
                     waitUntilElementVisible(element, second.intValue());
                 }
 
-                return element.getText();
+                return driver.findElement(element).getText();
             } catch (StaleElementReferenceException e) {
                 e.toString();
                 System.out.println("Trying to recover from a stale element :" + "\u001B[31m");
@@ -116,7 +128,7 @@ public class MainPage {
                     Assert.fail("Waiting for "+by(element)+" Element but not exist");
                 }
                 if (displayed(quickPayCancelBtn, 0)) {
-                    quickPayCancelBtn.click();
+                    driver.findElement(quickPayCancelBtn).click();
                 }
             }
         }
@@ -126,7 +138,7 @@ public class MainPage {
     }
 
 
-    public String getText(WebElement element) {
+    public String getText(By element) {
         String text;
 
         text = getText(element, null);
@@ -135,7 +147,7 @@ public class MainPage {
     }
 
 
-    public void click(WebElement button, Long second) {
+    public void click(By button, Long second) {
 
 
         int count = 0;
@@ -145,9 +157,11 @@ public class MainPage {
             try {
 
                 if (second == null) {
-                    waitUntilElementToBeClickable(button);
+                    waitForElementPresent(button);
+                    driver.findElement(button).click();
                 } else {
-                    waitUntilElementToBeClickable(button, second.intValue());
+                    waitForElementPresent(button,second.intValue());
+                    driver.findElement(button).click();
                 }
 
                 break;
@@ -172,14 +186,52 @@ public class MainPage {
         }
     }
 
-    public void clickWithoutWait(WebElement button) {
+    public void click(WebElement button, Long second) {
+
+
+        int count = 0;
+        //It will try 3 times to find same element using name.
+        by(button, "Clicking");
+        while (count < 2) {
+            try {
+
+                if (second == null) {
+                    waitForElementPresent(button);
+                   button.click();
+                } else {
+                    waitForElementPresent(button,second.intValue());
+                    button.click();
+                }
+
+                break;
+            } catch (StaleElementReferenceException e) {
+
+                System.out.println(">>> Trying to recover from a stale element :" + "\u001B[31m");
+                count++;
+            } catch (InvalidSelectorException e) {
+
+                System.out.println(">>> Trying to recover from a InvalidSelector :" + "\u001B[31m");
+                count++;
+            } catch (TimeoutException e) {
+
+                count++;
+                if (count == 2) {
+                    Assert.assertTrue(false, "Waiting for Element but not exist");
+                }
+
+
+            }
+
+        }
+    }
+    public void clickWithoutWait(By button) {
 
         by(button, "Click");
         int count = 0;
         while (count < 2) {
             try {
 
-                button.click();
+               driver.findElement(button).click();
 
                 break;
             } catch (StaleElementReferenceException e) {
@@ -192,21 +244,23 @@ public class MainPage {
         }
     }
 
+    public void click(By button) {
+        click(button, null);
+    }
+
+
     public void click(WebElement button) {
         click(button, null);
     }
 
-
-
-
-    public void tap(WebElement button) {
+    public void tap(By button) {
 
         click(button, null);
 
     }
 
 
-    public void setText(WebElement element, String data, Long second) {
+    public void setText(By element, String data, Long second) {
 
         int count = 0;
         //It will try 4 times to find same element using name.
@@ -218,7 +272,7 @@ public class MainPage {
                     waitForElementPresent(element, second.intValue());
                 }
                 by(element, "Set Text");
-                element.sendKeys(data);
+                driver.findElement(element).sendKeys(data);
 //                Log.info("***** Set Text on " + element.getAccessibleName() + " TextBox *****");
                 break;
             } catch (StaleElementReferenceException e) {
@@ -239,32 +293,41 @@ public class MainPage {
 
     }
 
-    public MainPage setText(WebElement element, String data) {
+    public MainPage setText(By element, String data) {
             setText(element, data, null);
             return  this;
     }
 
 
-    public void waitForElementPresent(WebElement element) {
+    public void waitForElementPresent(By element) {
 
             waitUntilElementVisible(element, globalTimeOut);
+    }
+
+    public void waitForElementPresent(WebElement element) {
+
+        waitUntilElementVisible(element, globalTimeOut);
     }
 
     public void setImplicitWait() {
         driver.manage().timeouts().implicitlyWait(globalTimeOut, TimeUnit.SECONDS);
     }
 
-    public void waitForElementPresent(WebElement element, int time) {
+    public void waitForElementPresent(By element, int time) {
             waitUntilElementVisible(element, time);
 
 
     }
 
-    public void waitUntilElementVisible(WebElement element) {
+    public void waitForElementPresent(WebElement element, int time) {
+        waitUntilElementVisible(element, time);
+    }
+
+    public void waitUntilElementVisible(By element) {
         waitUntilElementVisible(element, globalTimeOut);
     }
 
-    public void waitUntilElementToBeClickable(WebElement element, int time) {
+    public void waitUntilElementToBeClickable(By element, int time) {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
         wait.pollingEvery(Duration.ofSeconds(7))
@@ -272,7 +335,7 @@ public class MainPage {
                 .click();
     }
 
-    public void waitUntilElementToBeClickable(WebElement element) {
+    public void waitUntilElementToBeClickable(By element) {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(GeneralConstants.GLOBAL_TIME_OUT));
         wait
@@ -282,16 +345,26 @@ public class MainPage {
 
     }
 
-    public WebElement waitUntilElementWithCondition(WebElement element, ExpectedConditions conditions) {
+    public WebElement waitUntilElementWithCondition(By element, ExpectedConditions conditions) {
 
         return new WebDriverWait(driver, Duration.ofSeconds(GeneralConstants.GLOBAL_TIME_OUT))
                 .until(conditions.presenceOfElementLocated(by(element)));
     }
 
-    public WebElement waitUntilElementWithCondition(WebElement element, ExpectedConditions conditions, int time) {
+    public WebElement waitUntilElementWithCondition(By element, ExpectedConditions conditions, int time) {
 
         return new WebDriverWait(driver, Duration.ofSeconds(time))
                 .until(conditions.presenceOfElementLocated(by(element)));
+    }
+
+    public void waitUntilElementVisible(By element, int time) {
+
+
+        new WebDriverWait(driver, Duration.ofSeconds(time))
+                .until(ExpectedConditions
+                        .visibilityOfElementLocated(element));
+
+
     }
 
     public void waitUntilElementVisible(WebElement element, int time) {
@@ -321,14 +394,14 @@ public class MainPage {
     }
 
 
-    public boolean displayed(WebElement element, int time) {
+    public boolean displayed(By element, int time) {
 
-
+        WebElement element2= driver.findElement(element);
         try {
             new WebDriverWait(driver, Duration.ofSeconds(time))
                     .until(ExpectedConditions
-                            .visibilityOf(element));
-            boolean x = element.isDisplayed();
+                            .visibilityOf(element2));
+            boolean x = element2.isDisplayed();
 
             return x;
 
@@ -342,12 +415,12 @@ public class MainPage {
     }
 
 
-    public boolean isDisplayed(WebElement element, int time) {
+    public boolean isDisplayed(By element, int time) {
 
 
             try {
                 waitForElementPresent(element, time);
-                boolean x = element.isDisplayed();
+                boolean x = driver.findElement(element).isDisplayed();
 
                 if (x == false) {
 
@@ -365,12 +438,12 @@ public class MainPage {
 
 
 
-    public boolean isDisplayed(WebElement element) {
+    public boolean isDisplayed(By element) {
 
             by(element,"IsDisplay");
             try {
                 waitForElementPresent(element);
-                boolean x = element.isDisplayed();
+                boolean x = driver.findElement(element).isDisplayed();
 
                 if (x == false) {
 
@@ -379,7 +452,7 @@ public class MainPage {
 
             } catch (TimeoutException e) {
                 if (displayed(quickPayCancelBtn, 0)) {
-                    quickPayCancelBtn.click();
+                    driver.findElement(quickPayCancelBtn).click();
                 }
                 return false;
             }
@@ -420,6 +493,32 @@ public class MainPage {
         }
     }
 
+    public By by(By element, String Action) {
+        String locator;
+        String text = element.toString();
+
+
+        text = text.substring(0, text.length() - 1);
+        if (text.contains("xpath")) {
+            locator = text.split("xpath: ")[1];
+            if (extantTest == null) {
+
+            } else {
+
+                extantTest.info(Action + ": " + locator);
+            }
+            Log.info(Action + ": " + locator);
+            return By.xpath(locator);
+        } else if (text.contains("id")) {
+            locator = text.split("id: ")[1];
+            return By.id(locator);
+        } else if (text.contains("className")) {
+            locator = text.split("className: ")[1];
+            return By.className(locator);
+        } else {
+            return null;
+        }
+    }
     public By by(WebElement element, String Action) {
         String locator;
         String text = element.toString();
@@ -447,7 +546,8 @@ public class MainPage {
         }
     }
 
-    public By by(WebElement element) {
+
+    public By by(By element) {
         String locator;
         String text = element.toString();
 
@@ -501,12 +601,12 @@ public class MainPage {
         return flag;
     }
 
-    public boolean isSelected(WebElement element) {
+    public boolean isSelected(By element) {
 
 
         try {
             waitForElementPresent(element);
-            boolean x = element.isSelected();
+            boolean x = driver.findElement(element).isSelected();
 
             if (x == false) {
                 System.out.println("***** Element  is not Displayed *****  ");
@@ -521,19 +621,19 @@ public class MainPage {
 
     }
 
-    public void selectCheckBox(WebElement element) {
+    public void selectCheckBox(By element) {
         if (!isSelected(element))
-            element.click();
+            driver.findElement(element).click();
     }
 
-    public void deSelectCheckbox(WebElement element) {
+    public void deSelectCheckbox(By element) {
         if (isSelected(element))
-            element.click();
+            driver.findElement(element).click();
     }
 
-    public void selectRadioButton(WebElement element) {
+    public void selectRadioButton(By element) {
         if (!isSelected(element))
-            element.click();
+            driver.findElement(element).click();
     }
 
     public void clickBack() {
@@ -556,9 +656,9 @@ public class MainPage {
         }
     }
 
-    public void deSelectRadioButton(WebElement element) {
+    public void deSelectRadioButton(By element) {
         if (isSelected(element))
-            element.click();
+            driver.findElement(element).click();
     }
 /*
 	public void scrollUpUntilElementLocated(WebElement element) {
@@ -881,7 +981,7 @@ public class MainPage {
      * Method : verticalSwipeTillElement
      * input : MobileElemnet
      */
-    public void verticalSwipeTillElement(WebElement mobele) {
+    public void verticalSwipeTillElement(By mobele) {
         // !mobele.isDisplayed()!Boolean.valueOf(mobele.getAttribute("visible"))
         while (!isDisplayed(mobele)) {
 

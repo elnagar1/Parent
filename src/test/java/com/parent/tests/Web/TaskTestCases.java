@@ -2,8 +2,11 @@ package com.parent.tests.Web;
 
 
 import com.parent.tests.BaseTest;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.parent.pages.Web.HomePage;
+import org.parent.pages.Web.VisaPreparationForm;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -25,46 +28,49 @@ public class TaskTestCases extends BaseTest {
     @Test
     public void testSelectFromCountry() {
 
-        homePage = new HomePage(driver);
+      /*  homePage = new HomePage(driver);
         homePage.selectFromCountry("Egypt");
         homePage.selectToCountry("Australia");
         homePage.clickSubmitBtn();
-     //   Assert.assertTrue(homePage.isCountryInList("Australia"));
+        homePage.switchToNewTab();
+        homePage
+                .clickAcceptCookiesButton()
+                .clickBookNowButton()
+                .clickViewMore();*/
+        driver.navigate().to("https://visa.vfsglobal.com/sau/en/fra/france-visas-assistance");
 
-     //   driver.quit();
+
+        VisaPreparationForm visaForm = new VisaPreparationForm(driver);
+
+        visaForm.clickOptionalServiceLink();
+
+        visaForm.switchToNewTab();
+        visaForm.selectNationality("India");
+
+        visaForm.selectVisaCenter("USA - New York");
+
+        visaForm.selectCivility("Ms");
+
+        visaForm.enterFirstName("John");
+
+        visaForm.enterLastName("Doe");
+
+        visaForm.enterEmail("john.doe@example.com");
+
+        visaForm.enterPhoneNumber("1234567890");
+
+        visaForm.enterTravelDate("13-02-2026");
+
+        visaForm.selectPurposeOfStay("Tourism");
+
+        visaForm.enterDuration("30");
+        Assert.assertEquals("30", driver.findElement(By.id("input_32")).getAttribute("value"));
+
+        visaForm.selectInsurance("Yes");
+        Assert.assertTrue(driver.findElement(By.id("input_35_0")).isSelected());
+
+        //   visaForm.submitForm();
     }
 
-  /*  @Test
-    public void testSelectToCountry() {
-
-        homePage = new HomePage(driver);
-        homePage.selectToCountry("Canada");
-        Assert.assertTrue(homePage.isCountryInList("Canada"));
-
-        driver.quit();
-    }
-
-    @Test
-    public void testClearSelectedFromCountry() {
-
-        homePage = new HomePage(driver);
-        homePage.selectFromCountry("Australia");
-        homePage.clearSelectedCountry();
-        Assert.assertFalse(homePage.isCountryInList("Australia"));
-
-        driver.quit();
-    }
-
-    @Test
-    public void testClearSelectedToCountry() {
-
-
-        homePage = new HomePage(driver);
-        homePage.selectToCountry("Germany");
-        homePage.clearSelectedCountry();
-        Assert.assertFalse(homePage.isCountryInList("Germany"));
-
-        driver.quit();
-    }*/
 
 }
